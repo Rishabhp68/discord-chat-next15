@@ -9,7 +9,6 @@ import { Fragment, useRef, ElementRef } from "react";
 import { ChatItem } from "./chat-item";
 import { useChatSocket } from "@/hooks/use-chat-socket";
 import { useChatScroll } from "@/hooks/use-chat-scroll";
-import { useSocket } from "../providers/socket-provider";
 
 const DATE_FORMAT = "d MMM yyyy, HH:mm";
 

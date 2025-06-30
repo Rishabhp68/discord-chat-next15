@@ -10,10 +10,10 @@ import { ChannelType } from "@prisma/client";
 import { MediaRoom } from "@/components/media-room";
 
 interface ChannelIdPageProps {
-  params: {
+  params: Promise<{
     serverId: string;
     channelId: string;
-  };
+  }>;
 }
 
 const channelIdPage = async ({ params }: ChannelIdPageProps) => {

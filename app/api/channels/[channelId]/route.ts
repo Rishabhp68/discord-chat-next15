@@ -5,7 +5,7 @@ import { MemberRole } from "@prisma/client";
 
 export async function DELETE(
     req: Request,
-    { params }: { params: { channelId: string }},
+    { params }: { params: Promise<{ channelId: string }>},
 )
 {   
     try {
@@ -60,7 +60,7 @@ export async function DELETE(
 
 export async function PATCH(
     req: Request,
-    { params }: { params: { channelId: string }},
+    { params }: { params: Promise<{ channelId: string }>},
 )
 {   
     try {

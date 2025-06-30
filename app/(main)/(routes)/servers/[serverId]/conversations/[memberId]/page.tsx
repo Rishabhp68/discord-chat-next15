@@ -9,13 +9,13 @@ import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 interface MemberIdPageProps {
-    params: {
+    params: Promise<{
         memberId: string;
         serverId: string;
-    },
-    searchParams: {
+    }>,
+    searchParams: Promise<{
         video?: boolean;
-    }
+    }>
 }
 
 const MemberIdPage = async ({
@@ -26,6 +26,7 @@ const MemberIdPage = async ({
     const profile = await currentProfile();
     const { redirectToSignIn } = await auth();
     const { serverId, memberId } = await params;
+    const { video } = await searchParams;
 
     if(!profile) {
         return redirectToSignIn();
@@ -63,14 +64,14 @@ const MemberIdPage = async ({
                 serverId={serverId}
                 type="conversation"
             />
-            {searchParams.video && (
+            {video && (
                 <MediaRoom
                     chatId={conversation.id}
                     video={true}
                     audio={true}
                 />
             )}
-            {!searchParams.video && (
+            {!video && (
                <>
                 <ChatMessages
                     member={currentMember}

@@ -36,7 +36,6 @@ import {
     SelectValue
 } from "@/components/ui/select";
 import { useEffect } from "react";
-import { channel } from "diagnostics_channel";
 
 const formSchema = z.object({
     name: z.string().min(1, {
@@ -81,7 +80,7 @@ export const CreateChannelModal = () => {
             const url = qs.stringifyUrl({
                 url: "/api/channels",
                 query: {
-                    serverId: (await params).serverId,
+                    serverId: params?.serverId,
                 }
 
             })

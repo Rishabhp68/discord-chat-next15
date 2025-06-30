@@ -2,7 +2,7 @@
 
 import { ServerWithMembersWithProfile } from "@/types"
 import { MemberRole } from "@prisma/client";
-import { ChevronDown, LogOut, Plus, PlusCircle, Settings, Trash, UserPlus, Users } from "lucide-react";
+import { ChevronDown, LogOut, PlusCircle, Settings, Trash, UserPlus, Users } from "lucide-react";
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useModal } from "@/hooks/use-modal-store";

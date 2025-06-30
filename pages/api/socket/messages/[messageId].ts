@@ -3,7 +3,6 @@ import { NextApiResponseServerIo } from "@/types";
 import { NextApiRequest } from "next";
 
 import { db } from "@/lib/db";
-import { channel } from "diagnostics_channel";
 import { MemberRole } from "@prisma/client";
 
 export default async function handler(

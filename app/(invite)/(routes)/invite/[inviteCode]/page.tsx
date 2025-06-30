@@ -4,10 +4,9 @@ import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 
 interface InviteCodePageProps {
-    params: {
-        inviteCode: string,
-    };
-};
+    params:
+        Promise<{ inviteCode: string }>;
+  }
 
 const InviteCodePage = async ({ 
     params 
