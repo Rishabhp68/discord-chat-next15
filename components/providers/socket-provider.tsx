@@ -1,7 +1,6 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
-
 import { io as ClientIO } from "socket.io-client";
 
 type SocketContextType = {
@@ -14,52 +13,47 @@ const SocketContext = createContext<SocketContextType>({
   isConnected: false,
 });
 
-export const useSocket = () => {
-  return useContext(SocketContext);
-};
+export const useSocket = () => useContext(SocketContext);
 
-export const SocketProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
-    const [socket, setSocket] = useState(null);
-    const[isConnected, setIsConnected] = useState(false);
-   
-    useEffect(() => {
+export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
+  const [socket, setSocket] = useState<any>(null);
+  const [isConnected, setIsConnected] = useState(false);
+
+  useEffect(() => {
+    const initSocket = async () => {
+      try {
+        await fetch("/api/socket/io"); // ✅ make sure server is initialized
+
         const socketInstance = new (ClientIO as any)(process.env.NEXT_PUBLIC_SITE_URL!, {
-            path: "/api/socket/io",
-            addTrailingSlash: false,
-            transports: ["polling", "websocket"],
-            transportOptions: {
-              polling: {
-                // Time in milliseconds between polling requests
-                pollingInterval: 100, // poll every 5 seconds
-              }
-            },
+          path: "/api/socket/io",
+          transports: ["websocket"],
+          withCredentials: true,
         });
 
         socketInstance.on("connect", () => {
-            setIsConnected(true);
+          setIsConnected(true);
         });
 
         socketInstance.on("disconnect", () => {
-            setIsConnected(false);
+          setIsConnected(false);
         });
 
         setSocket(socketInstance);
+      } catch (err) {
+        console.error("Failed to init socket:", err);
+      }
+    };
 
-        console.log("--------------", process.env.NEXT_PUBLIC_SITE_URL!)
+    initSocket();
 
-        return () => {
-            socketInstance.disconnect();
-        }
-    }, []);
+    return () => {
+      socket?.disconnect();
+    };
+  }, []);
 
-    return (
-        <SocketContext.Provider value={{ socket, isConnected }}>
-            {children}
-        </SocketContext.Provider>
-    )
-
+  return (
+    <SocketContext.Provider value={{ socket, isConnected }}>
+      {children}
+    </SocketContext.Provider>
+  );
 };
